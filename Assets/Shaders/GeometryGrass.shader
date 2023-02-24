@@ -22,6 +22,9 @@ Shader "CustomGrass/GeometryGrass"
 		_WindMap("Wind Offset Map", 2D) = "bump" {}
 		_WindFrequency("Wind Frequency", Vector) = (0.05, 0.05, 0, 0)
 		_WindStrength("Wind Strength", Float) = 1.0
+
+		[Header(Grass visibility)] // Grass visibility properties.
+		_GrassMap("Grass Visibility Map", 2D) = "white" {}
 	}
 	SubShader
 	{
@@ -63,6 +66,11 @@ Shader "CustomGrass/GeometryGrass"
 				float4 _WindMap_ST;
 				float2 _WindFrequency;
 				float _WindStrength;
+
+				sampler2D _GrassMap;
+				float4 _GrassMap_ST;
+
+				float _Cutoff;
 			CBUFFER_END
 
 			struct VSInput
@@ -85,6 +93,7 @@ Shader "CustomGrass/GeometryGrass"
 			{
 				float4 position : SV_POSITION;
 				float2 uv       : TEXCOORD0;
+				float3 worldPos : TEXCOORD1;
 			};
 
 			// Simple noise function, sourced from http://answers.unity.com/answers/624136/view.html
@@ -121,6 +130,7 @@ Shader "CustomGrass/GeometryGrass"
 				GSOutput o;
 				o.position = TransformObjectToHClip(pos);
 				o.uv = uv;
+				o.worldPos = pos;
 				return o;
 			}
 
@@ -181,6 +191,12 @@ Shader "CustomGrass/GeometryGrass"
 
 		Pass
 		{
+			Name "GrassPass"
+			Tags { "LightMode" = "UniversalForward" }
+
+			ZWrite On
+			ZTest LEqual
+
 			HLSLPROGRAM
 			#pragma require geometry
 
@@ -203,7 +219,68 @@ Shader "CustomGrass/GeometryGrass"
 			float4 PSMain(in GSOutput input) : SV_Target
 			{
 				float4 bladeTint = tex2D(_BladeTexture, input.uv);
+
+				// Shadow receiving
+				VertexPositionInputs vertexInput = (VertexPositionInputs)0;
+				vertexInput.positionWS = input.worldPos;
+
+				float4 shadowCoord = GetShadowCoord(vertexInput);
+				half shadowAttenuation = saturate(MainLightRealtimeShadow(shadowCoord) + 0.25f);
+				float4 shadowColor = lerp(0.0f, 1.0f, shadowAttenuation);
+				bladeTint *= shadowColor;
+
 				return lerp(_BaseColor, _TipColor, input.uv.y) * bladeTint;
+			}
+			ENDHLSL
+		}
+
+		Pass
+		{
+			Name "ShadowCaster"
+			Tags { "LightMode" = "ShadowCaster" }
+
+			ZWrite On
+			ZTest LEqual
+
+			HLSLPROGRAM
+			#pragma vertex VSMain
+			#pragma geometry GSMain
+			#pragma fragment PSMain
+
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/SurfaceInput.hlsl"
+
+			float3 _LightDirection;
+			float3 _LightPosition;
+
+			// Custom vertex shader to apply shadow bias.
+			VSOutput VSMain(VSInput v)
+			{
+				VSOutput o;
+
+				o.normal = TransformObjectToWorldNormal(v.normal);
+				o.tangent = v.tangent;
+				o.uv = TRANSFORM_TEX(v.uv, _GrassMap);
+
+				float3 positionWS = TransformObjectToWorld(v.position);
+
+				// Code required to account for shadow bias.
+#if _CASTING_PUNCTUAL_LIGHT_SHADOW
+				float3 lightDirectionWS = normalize(_LightPosition - positionWS);
+#else
+				float3 lightDirectionWS = _LightDirection;
+#endif
+				o.position = float4(ApplyShadowBias(positionWS, o.normal, lightDirectionWS), 1.0f);
+
+				return o;
+			}
+
+			float4 PSMain(GSOutput i) : SV_Target
+			{
+				Alpha(SampleAlbedoAlpha(i.uv, TEXTURE2D_ARGS(_BaseMap, sampler_BaseMap)).a, _BaseColor, _Cutoff);
+				return 0;
 			}
 			ENDHLSL
 		}
