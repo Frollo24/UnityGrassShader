@@ -25,7 +25,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BladeTexture:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 7b13a349128b6e345ae90e3db5eb148d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -68,6 +68,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _WindMap:
+        m_Texture: {fileID: 2800000, guid: cf1e05864e2816b479c60d880b80f7a7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -83,6 +87,13 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaClip: 0
+    - _BendRotationRandom: 0
+    - _BladeCurve: 2
+    - _BladeForward: 0.38
+    - _BladeHeight: 0.5
+    - _BladeHeightRandom: 0.3
+    - _BladeWidth: 0.05
+    - _BladeWidthRandom: 0.02
     - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
@@ -106,6 +117,8 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
+    - _WindFrequency: 0.01
+    - _WindStrength: 1
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
@@ -114,6 +127,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TipColor: {r: 0.5792569, g: 0.846, b: 0.32972306, a: 1}
+    - _WindFrequency: {r: 0.05, g: 0.05, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &4420895507059976831
 MonoBehaviour:
