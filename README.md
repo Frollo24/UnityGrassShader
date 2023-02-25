@@ -1,7 +1,7 @@
 # UnityGrassShader
 A project in Unity based on Daniel Ilett's grass rendering techniques. This project is made for exploring modern grass and foliage rendering techniques using Unity3D Game Engine.
 
-![GrassTiles](./Gallery/GrassTiles.v1.png)
+![GrassTiles](./Gallery/GrassTiles.v2.png)
 
 This is an aside project which I decided to do in order to extend one of my Computer Graphics Masters Degree's assigments.
 On this assignment I have to implement a custom grass shader with Unity shaders, using geometry and tesselation shaders.

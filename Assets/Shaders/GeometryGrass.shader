@@ -41,8 +41,12 @@ Shader "CustomGrass/GeometryGrass"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
+#if UNITY_VERSION >= 202120
+			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE
+#else
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
+#endif
 			#pragma multi_compile _ _SHADOWS_SOFT
 
 			#define UNITY_PI 3.14159265359f
