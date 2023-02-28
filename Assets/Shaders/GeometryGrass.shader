@@ -18,6 +18,9 @@ Shader "CustomGrass/GeometryGrass"
 		_BladeForward("Blade Forward Amount", Float) = 0.38
 		_BladeCurve("Blade Curvature Amount", Range(1, 4)) = 2
 
+		[Header(Tesselation Factor)]
+		_TessellationUniform("Tessellation Uniform", Range(1, 64)) = 1
+
 		[Header(Wind Parameters)] // Wind properties.
 		_WindMap("Wind Offset Map", 2D) = "bump" {}
 		_WindFrequency("Wind Frequency", Vector) = (0.05, 0.05, 0, 0)
@@ -66,6 +69,8 @@ Shader "CustomGrass/GeometryGrass"
 				float _BladeForward;
 				float _BladeCurve;
 
+				float _TessellationUniform;
+
 				sampler2D _WindMap;
 				float4 _WindMap_ST;
 				float2 _WindFrequency;
@@ -91,6 +96,12 @@ Shader "CustomGrass/GeometryGrass"
 				 float3 normal   : NORMAL;
 				 float4 tangent  : TANGENT;
 				 float2 uv       : TEXCOORD0;
+			};
+
+			struct HSOutput
+			{
+				float edge[3] : SV_TessFactor;
+				float inside  : SV_InsideTessFactor;
 			};
 
 			struct GSOutput
@@ -144,6 +155,44 @@ Shader "CustomGrass/GeometryGrass"
 				float3 tangentPoint = WHF.xzy;
 				float3 localPosition = vertexPos + mul(transformMatrix, tangentPoint);
 				return VertexTransformWorldToClip(localPosition, uv);
+			}
+
+			HSOutput PatchMain(InputPatch<VSOutput, 3> patch)
+			{
+				HSOutput output;
+				output.edge[0] = _TessellationUniform;
+				output.edge[1] = _TessellationUniform;
+				output.edge[2] = _TessellationUniform;
+				output.inside = _TessellationUniform;
+				return output;
+			}
+
+			[domain("tri")]
+			[outputcontrolpoints(3)]
+			[outputtopology("triangle_cw")]
+			[partitioning("integer")]
+			[patchconstantfunc("PatchMain")]
+			VSOutput HSMain(InputPatch<VSOutput, 3> patch, uint id: SV_OutputControlPointID)
+			{
+				return patch[id];
+			}
+
+			[domain("tri")]
+			VSOutput DSMain(HSOutput input, OutputPatch<VSOutput, 3> patch, float3 barycentricCoords : SV_DomainLocation)
+			{
+				VSOutput output;
+
+				#define INTERPOLATE(fieldname) output.fieldname = \
+					patch[0].fieldname * barycentricCoords.x + \
+					patch[1].fieldname * barycentricCoords.y + \
+					patch[2].fieldname * barycentricCoords.z;
+
+				INTERPOLATE(position)
+				INTERPOLATE(normal)
+				INTERPOLATE(tangent)
+				INTERPOLATE(uv)
+
+				return output;
 			}
 
 			#define BLADE_SEGMENTS 3
@@ -203,8 +252,11 @@ Shader "CustomGrass/GeometryGrass"
 
 			HLSLPROGRAM
 			#pragma require geometry
+			#pragma require tessellation tessHW
 
 			#pragma vertex VSMain
+			#pragma hull HSMain
+			#pragma domain DSMain
 			#pragma geometry GSMain
 			#pragma fragment PSMain
 
@@ -248,6 +300,8 @@ Shader "CustomGrass/GeometryGrass"
 
 			HLSLPROGRAM
 			#pragma vertex VSMain
+			#pragma hull HSMain
+			#pragma domain DSMain
 			#pragma geometry GSMain
 			#pragma fragment PSMain
 

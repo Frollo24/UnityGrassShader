@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Grass
+  m_Name: GrassTile
   m_Shader: {fileID: 4800000, guid: 0ce52a865181112499b625f350ff4942, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -121,7 +121,7 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _TessellationUniform: 12
+    - _TessellationUniform: 2
     - _WindFrequency: 0.01
     - _WindStrength: 1
     - _WorkflowMode: 1
