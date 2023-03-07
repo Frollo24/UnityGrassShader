@@ -24,3 +24,13 @@ Optional features:
 - [ ] Procedural Compute Grass
 - [ ] Unity Terrains Grass
 - [ ] Billboarding
+
+## Interesting links
+[Six Grass Rendering Techniques in Unity by Daniel Ilett](https://danielilett.com/2022-12-05-tut6-2-six-grass-techniques/)  
+[Roystan Grass Shader (the skeleton of the assignment)](https://roystan.net/articles/grass-shader/)  
+[An astounishing grass shader made by Staggart Creations](https://forum.unity.com/threads/stylized-grass-shader-urp.804000/)  
+[Grass Rendering in OpenGL // Code Review - An interesting review made by TheCherno](https://www.youtube.com/watch?v=2h5NX9tIdno)  
+
+### Other useful links
+[Unity Shaders Bible (a must when doing shaders in Unity)](https://www.jettelly.com/books/unity-shaders-bible/)  
+[A necessary post when dealing with URP custom shaders by Steven Cannavan](https://blog.unity.com/engine-platform/shedding-light-on-universal-render-pipeline-for-unity-2021-lts)
