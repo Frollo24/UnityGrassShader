@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/GrassTiles.unity
     guid: 4dd98e3cb002c464d9f826295f163570
+  - enabled: 0
+    path: Assets/Scenes/ComputeGrass.unity
+    guid: ba9d96faa6cfb4541b13feb2d4f518cc
   m_configObjects: {}
