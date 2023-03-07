@@ -43,6 +43,7 @@ Shader "CustomGrass/GeometryGrass"
 		HLSLINCLUDE
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
 
 #if UNITY_VERSION >= 202120
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE
@@ -50,6 +51,7 @@ Shader "CustomGrass/GeometryGrass"
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
 #endif
+			#pragma multi_compile _ _ADDITIONAL_LIGHT_SHADOWS
 			#pragma multi_compile _ _SHADOWS_SOFT
 
 			#define UNITY_PI 3.14159265359f
@@ -276,14 +278,24 @@ Shader "CustomGrass/GeometryGrass"
 			{
 				float4 bladeTint = tex2D(_BladeTexture, input.uv);
 
-				// Shadow receiving
 				VertexPositionInputs vertexInput = (VertexPositionInputs)0;
 				vertexInput.positionWS = input.worldPos;
 
+#ifdef MAIN_LIGHT_CALCULATE_SHADOWS
+				// Shadow receiving
 				float4 shadowCoord = GetShadowCoord(vertexInput);
-				half shadowAttenuation = saturate(MainLightRealtimeShadow(shadowCoord) + 0.25f);
-				float4 shadowColor = lerp(0.0f, 1.0f, shadowAttenuation);
-				bladeTint *= shadowColor;
+				half mainShadowAttenuation = saturate(MainLightRealtimeShadow(shadowCoord) + 0.25f);
+				float4 mainShadowColor = lerp(0.0f, 1.0f, mainShadowAttenuation);
+				bladeTint *= mainShadowColor;
+#endif
+
+#ifdef ADDITIONAL_LIGHT_CALCULATE_SHADOWS
+				// Shadow receiving
+				Light light = GetAdditionalLight(0, vertexInput.positionWS);
+				half additionalShadowAttenuation = saturate(AdditionalLightRealtimeShadow(0, vertexInput.positionWS, light.direction) + 0.25f);
+				float4 additionalShadowColor = lerp(0.0f, 1.0f, additionalShadowAttenuation);
+				bladeTint *= additionalShadowColor;
+#endif
 
 				return lerp(_BaseColor, _TipColor, input.uv.y) * bladeTint;
 			}
