@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acd8102b771c04b45b3f8273718d675d, type: 3}
+  m_Name: AutumnSeasonData
+  m_EditorClassIdentifier: 
+  TipColor: {r: 0.7386144, g: 0.93333334, b: 0.41066667, a: 1}
+  BaseColor: {r: 0.4317518, g: 0.65, b: 0.32262772, a: 1}
+  LightColor: {r: 1, g: 0.86272484, b: 0.73800004, a: 1}
+  LightIntensity: 1.6

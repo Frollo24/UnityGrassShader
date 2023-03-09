@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acd8102b771c04b45b3f8273718d675d, type: 3}
+  m_Name: _DefaultSeasonData
+  m_EditorClassIdentifier: 
+  TipColor: {r: 0.5792569, g: 0.846, b: 0.3297231, a: 1}
+  BaseColor: {r: 0.06129726, g: 0.378, b: 0.07151345, a: 1}
+  LightColor: {r: 1, g: 0.9568627, b: 0.8392157, a: 1}
