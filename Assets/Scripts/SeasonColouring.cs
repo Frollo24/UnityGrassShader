@@ -25,6 +25,7 @@ public class SeasonColouring : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
+            if ((int)_season == 0) _season = (Season)4;
             _season = (Season)((int)(_season - 1) % 4);
             ReloadSeasonData();
         }
