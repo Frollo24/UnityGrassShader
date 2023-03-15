@@ -8,13 +8,14 @@ On this assignment I have to implement a custom grass shader with Unity shaders,
 Instead I will implement that shader and try to implement an alternative version using compute shaders.
 
 ![ProceduralGrass](./Gallery/ProceduralGrass.v1.png "Procedural Grass")
+![TerrainGrass](./Gallery/TerrainBillboard.v1.png "Unity Terrain Grass")
 
 ## Roadmap
 Main features to implement:
 - [x] Implement Geometry and Tessellation Shaders
 - [x] Implement Procedural Rendering and Compute Shaders
 - [ ] Season based grass coloring (Selectable from UI)
-- [ ] Exploring Unity Terrains for grass rendering
+- [x] Exploring Unity Terrains for grass rendering
 
 Optional features:
 - [ ] Season synchronizing with date
@@ -24,7 +25,7 @@ Optional features:
 - [x] Grass Tiles
 - [x] Geometry/Tessellation Grass
 - [x] Procedural Compute Grass
-- [ ] Unity Terrains Grass
+- [x] Unity Terrains Grass
 - [ ] Billboarding
 
 ## Interesting links
