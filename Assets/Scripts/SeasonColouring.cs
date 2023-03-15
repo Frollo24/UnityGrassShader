@@ -11,6 +11,10 @@ public enum Season
 public class SeasonColouring : MonoBehaviour
 {
     [SerializeField] private MeshRenderer _meshRenderer;
+    [SerializeField] private SeasonData _defaultSeasonData;
+    [SerializeField] private bool _useDefaultSeasonData = false;
+
+    [Header("SeasonData")]
     [SerializeField] private Season _season;
     [SerializeField] private SeasonData _springSeasonData;
     [SerializeField] private SeasonData _summerSeasonData;
@@ -39,13 +43,15 @@ public class SeasonColouring : MonoBehaviour
 
     private SeasonData SelectSeasonData()
     {
+        if (_useDefaultSeasonData) return _defaultSeasonData;
+
         return _season switch
         {
             Season.Spring => _springSeasonData,
             Season.Summer => _summerSeasonData,
             Season.Autumn => _autumnSeasonData,
             Season.Winter => _winterSeasonData,
-            _ => null
+            _ => _defaultSeasonData
         };
     }
 

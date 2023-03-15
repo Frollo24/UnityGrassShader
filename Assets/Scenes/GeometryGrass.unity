@@ -541,7 +541,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _meshRenderer: {fileID: 1150649049}
   _defaultSeasonData: {fileID: 11400000, guid: 47f4d8fa30c7d8c44bc94ec10b7495fc, type: 2}
-  _useDefaultSeasonData: 0
+  _useDefaultSeasonData: 1
   _season: 0
   _springSeasonData: {fileID: 11400000, guid: 851d6e57807fa014aa48d3a1c14ce3ca, type: 2}
   _summerSeasonData: {fileID: 11400000, guid: ca2c824a858c7b847be5376adcbccd4f, type: 2}
