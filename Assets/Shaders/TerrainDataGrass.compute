@@ -1,0 +1,75 @@
+#pragma kernel CSMain
+
+StructuredBuffer<int> _TerrainTriangles;
+StructuredBuffer<float3> _TerrainVertices;
+
+RWStructuredBuffer<float4x4> _TransformMatrices;
+uniform uint _TerrainTriangleCount;
+uniform float _Scale;
+uniform float _MinBladeHeight;
+uniform float _MaxBladeHeight;
+uniform float _MinOffset;
+uniform float _MaxOffset;
+uniform float4x4 _TerrainObjectToWorld;
+
+#define TWO_PI 6.28318530718f
+
+// Function that takes a 2-element seed and returns a random value
+// between the min and max bounds. Sourced from http://answers.unity.com/answers/624136/view.html
+float randomRange(float2 seed, float min, float max)
+{
+    float rand = frac(sin(dot(seed, float2(12.9898, 78.233))) * 43758.5453);
+    return lerp(min, max, rand);
+}
+
+// Function to rotate a 4x4 matrix around the y-axis by a specified angle.
+float4x4 rotationMatrixY(float angle)
+{
+    float s, c;
+    sincos(angle, s, c);
+
+    return float4x4
+	(
+		 c, 0, s, 0,
+		 0, 1, 0, 0,
+		-s, 0, c, 0,
+		 0, 0, 0, 1
+	);
+}
+
+[numthreads(8, 8, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+	// Avoid running 'overflow' tasks when the number of tasks
+	// wasn't divisible by the number of threads.
+    if (id.x > _TerrainTriangleCount)
+    {
+        return;
+    }
+    
+    int triStart = id.x * 3;
+    float3 vertA = _TerrainVertices[_TerrainTriangles[triStart + 0]];
+    float3 vertB = _TerrainVertices[_TerrainTriangles[triStart + 1]];
+    float3 vertC = _TerrainVertices[_TerrainTriangles[triStart + 2]];
+    
+    float3 barycenter = (vertA + vertB + vertC) / 3.0f;
+    
+    float2 seed1 = float2(id.xy);
+    float2 seed2 = float2(id.yx);
+    
+    float scaleY = _Scale * randomRange(seed1, _MinBladeHeight, _MaxBladeHeight);
+    
+    float offsetX = randomRange(seed1, _MinOffset, _MaxOffset);
+    float offsetZ = randomRange(seed2, _MinOffset, _MaxOffset);
+    
+    float4x4 grassTransformMatrix = float4x4
+	(
+		_Scale, 0, 0, barycenter.x + offsetX,
+		0, scaleY, 0, barycenter.y,
+		0, 0, _Scale, barycenter.z + offsetZ,
+		0, 0, 0, 1
+	);
+    
+    float4x4 randomRotationMatrix = rotationMatrixY(randomRange(seed2, 0.0, TWO_PI));
+    _TransformMatrices[id.x] = mul(_TerrainObjectToWorld, mul(grassTransformMatrix, randomRotationMatrix));
+}

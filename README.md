@@ -8,7 +8,12 @@ On this assignment I have to implement a custom grass shader with Unity shaders,
 Instead I will implement that shader and try to implement an alternative version using compute shaders.
 
 ![ProceduralGrass](./Gallery/ProceduralGrass.v1.png "Procedural Grass")
+
+Additionally I've managed to explore a little more about Unity Terrains and use them for generating a mesh that can be used by a compute shader.
+Using the terrain data and sampling the terrain's height, I can displace the vertices of a mesh where the glass blades will be rendered.
+
 ![TerrainGrass](./Gallery/TerrainBillboard.v1.png "Unity Terrain Grass")
+![TerrainDataGrass](./Gallery/TerrainData.v1.png "Terrain Data Compute Grass")
 
 ## Roadmap
 Main features to implement:
@@ -26,7 +31,7 @@ Optional features:
 - [x] Geometry/Tessellation Grass
 - [x] Procedural Compute Grass
 - [x] Unity Terrains Grass
-- [ ] Billboarding
+- [x] Billboarding
 
 ## Interesting links
 [Six Grass Rendering Techniques in Unity by Daniel Ilett](https://danielilett.com/2022-12-05-tut6-2-six-grass-techniques/)  

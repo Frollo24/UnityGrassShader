@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/TerrainGrass.unity
     guid: 448d3d8f307cf2046b279fe9334a692d
+  - enabled: 0
+    path: Assets/Scenes/TerrainDataGrass.unity
+    guid: 65483781d925b664cb4b0fbec9e2b79c
   m_configObjects: {}

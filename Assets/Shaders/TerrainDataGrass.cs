@@ -1,10 +1,12 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class ProceduralGrass : MonoBehaviour
+public class TerrainDataGrass : MonoBehaviour
 {
     #region EditorVariables
     [Header("Rendering Properties")]
+    [SerializeField, Tooltip("The Unity terrain to extract the data from.")] private Terrain _unityTerrain;
     [SerializeField, Tooltip("Compute shader for generating transformation matrices.")] private ComputeShader _computeShader;
     [SerializeField, Tooltip("Mesh for individual grass blades.")] private Mesh _grassMesh;
     [SerializeField, Tooltip("Material for rendering each grass blade.")] private Material _grassMaterial;
@@ -47,6 +49,17 @@ public class ProceduralGrass : MonoBehaviour
         _kernel = _computeShader.FindKernel("CSMain");
 
         var terrainMesh = GetComponent<MeshFilter>().sharedMesh;
+
+        Vector3[] newVertices = new Vector3[terrainMesh.vertexCount];
+        int index = 0;
+        foreach (var vertex in terrainMesh.vertices)
+        {
+            var worldPos = transform.localToWorldMatrix * vertex;
+            var newVertex = vertex;
+            newVertex.y = _unityTerrain.SampleHeight(worldPos);
+            newVertices[index++] = newVertex;
+        }
+        terrainMesh.SetVertices(newVertices);
 
         // Terrain data for the compute shader.
         Vector3[] terrainVertices = terrainMesh.vertices;
