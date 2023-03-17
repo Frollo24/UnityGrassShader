@@ -15,3 +15,5 @@ MonoBehaviour:
   TipColor: {r: 0.5792569, g: 0.846, b: 0.3297231, a: 1}
   BaseColor: {r: 0.06129726, g: 0.378, b: 0.07151345, a: 1}
   LightColor: {r: 1, g: 0.9568627, b: 0.8392157, a: 1}
+  LightIntensity: 2
+  LeavesColor: {r: 0.2509804, g: 0.8823529, b: 0.1686275, a: 1}

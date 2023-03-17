@@ -14,5 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TipColor: {r: 0.7386144, g: 0.93333334, b: 0.41066667, a: 1}
   BaseColor: {r: 0.4317518, g: 0.65, b: 0.32262772, a: 1}
-  LightColor: {r: 1, g: 0.86272484, b: 0.73800004, a: 1}
+  LightColor: {r: 1, g: 0.88235295, b: 0.8, a: 1}
   LightIntensity: 1.6
+  LeavesColor: {r: 0.5882353, g: 0.177, b: 0.057404764, a: 1}
+  FirefliesStartColor: {r: 0.95, g: 0.7176617, b: 0.3439, a: 1}
+  FirefliesEndColor: {r: 0.95699996, g: 0.60699314, b: 0.14929195, a: 1}
+  FirefliesIntensity: 3.5

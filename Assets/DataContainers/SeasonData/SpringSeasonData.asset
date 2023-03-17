@@ -16,3 +16,7 @@ MonoBehaviour:
   BaseColor: {r: 0.12936096, g: 0.5377358, b: 0.13957037, a: 1}
   LightColor: {r: 0.95, g: 0.94513416, b: 0.7505, a: 1}
   LightIntensity: 2
+  LeavesColor: {r: 0.9245283, g: 0.638, b: 0.7544089, a: 1}
+  FirefliesStartColor: {r: 0.98039216, g: 0.98039216, b: 0.38235292, a: 1}
+  FirefliesEndColor: {r: 0.95686275, g: 0.87021387, b: 0, a: 1}
+  FirefliesIntensity: 4

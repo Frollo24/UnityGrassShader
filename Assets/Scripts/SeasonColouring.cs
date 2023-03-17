@@ -20,7 +20,11 @@ public class SeasonColouring : MonoBehaviour
     [SerializeField] private SeasonData _summerSeasonData;
     [SerializeField] private SeasonData _autumnSeasonData;
     [SerializeField] private SeasonData _winterSeasonData;
+
+    [Header("Scene Elements")]
     [SerializeField] private Light _mainLight;
+    [SerializeField] private ParticleSystem _leavesParticles;
+    [SerializeField] private ParticleSystem _firefliesParticles;
     private Material _material;
 
     private void Start() => ReloadSeasonData();
@@ -64,5 +68,13 @@ public class SeasonColouring : MonoBehaviour
 
         _mainLight.color = seasonData.LightColor;
         _mainLight.intensity = seasonData.LightIntensity;
+
+        var leavesMain = _leavesParticles.main;
+        leavesMain.startColor = seasonData.LeavesColor;
+
+        var firefliesColor = _firefliesParticles.colorOverLifetime;
+        firefliesColor.color = seasonData.FirefliesColorOverLifetime;
+        var firefliesMaterial = _firefliesParticles.GetComponent<ParticleSystemRenderer>().material;
+        firefliesMaterial.SetColor("_EmissionColor", seasonData.FirefliesStartColor * Mathf.Pow(2, 5));
     }
 }

@@ -1,12 +1,13 @@
 # UnityGrassShader
 A project in Unity based on Daniel Ilett's grass rendering techniques. This project is made for exploring modern grass and foliage rendering techniques using Unity3D Game Engine.
 
-![GeometryGrass](./Gallery/GeometryGrass.v2.png "Geometry Grass")
+![GeometryGrassParticles](./Gallery/Particles.v1.png "Geometry Grass with particles")
 
 This is an aside project which I decided to do in order to extend one of my Computer Graphics Masters Degree's assigments.
 On this assignment I have to implement a custom grass shader with Unity shaders, using geometry and tessellation shaders.
 Instead I will implement that shader and try to implement an alternative version using compute shaders.
 
+![GeometryGrass](./Gallery/GeometryGrass.v2.png "Geometry Grass")
 ![ProceduralGrass](./Gallery/ProceduralGrass.v1.png "Procedural Grass")
 
 Additionally I've managed to explore a little more about Unity Terrains and use them for generating a mesh that can be used by a compute shader.
@@ -20,6 +21,7 @@ Main features to implement:
 - [x] Implement Geometry and Tessellation Shaders
 - [x] Implement Procedural Rendering and Compute Shaders
 - [ ] Season based grass coloring (Selectable from UI)
+- [x] Season based particles
 - [x] Exploring Unity Terrains for grass rendering
 
 Optional features:
@@ -41,4 +43,5 @@ Optional features:
 
 ### Other useful links
 [Unity Shaders Bible (a must when doing shaders in Unity)](https://www.jettelly.com/books/unity-shaders-bible/)  
-[A necessary post when dealing with URP custom shaders by Steven Cannavan](https://blog.unity.com/engine-platform/shedding-light-on-universal-render-pipeline-for-unity-2021-lts)
+[A necessary post when dealing with URP custom shaders by Steven Cannavan](https://blog.unity.com/engine-platform/shedding-light-on-universal-render-pipeline-for-unity-2021-lts)  
+[Unity Tutorial for falling leaves using Unity's Particle System](https://www.lmhpoly.com/tutorials/unity-tutorial-falling-leaves-particle-system)
