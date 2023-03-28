@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public enum Season
@@ -43,6 +44,19 @@ public class SeasonColouring : MonoBehaviour
             _season = (Season)((int)(_season + 1) % 4);
             ReloadSeasonData();
         }
+    }
+
+    public void ChangeSeason(string newSeason)
+    {
+        Season season = (Season)Enum.Parse(typeof(Season), newSeason);
+        ChangeSeason(season);
+    }
+
+    public void ChangeSeason(Season season)
+    {
+        _season = season;
+        SelectSeasonData();
+        ReloadSeasonData();
     }
 
     private SeasonData SelectSeasonData()
