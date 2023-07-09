@@ -33,7 +33,8 @@ VSOutput DSMain(HSOutput input, OutputPatch<VSOutput, 3> patch, float3 barycentr
 					patch[1].fieldname * barycentricCoords.y + \
 					patch[2].fieldname * barycentricCoords.z;
 
-	INTERPOLATE(position)
+	INTERPOLATE(positionCS)
+	INTERPOLATE(positionWS)
 	INTERPOLATE(normal)
 	INTERPOLATE(tangent)
 	INTERPOLATE(uv)
@@ -45,10 +46,10 @@ VSOutput DSMain(HSOutput input, OutputPatch<VSOutput, 3> patch, float3 barycentr
 [maxvertexcount(BLADE_SEGMENTS * 2 + 1)]
 void GSMain(triangle VSOutput input[3], inout TriangleStream<GSOutput> triStream)
 {
-    float3 pos = input[0].position;
+    float3 pos = input[0].positionWS;
     float3 norm = input[0].normal;
     float4 tang = input[0].tangent;
-    float3 binorm = cross(norm, tang) * tang.w;
+    float3 binorm = cross(norm, tang.xyz) * tang.w;
 
     float3x3 tangentToLocal = float3x3
 	(

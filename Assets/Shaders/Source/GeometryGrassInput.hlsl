@@ -30,18 +30,21 @@ CBUFFER_END
 
 struct VSInput
 {
-    float4 position : POSITION;
-    float3 normal : NORMAL;
-    float4 tangent : TANGENT;
+    float4 positionOS : POSITION;
+    float3 normalOS : NORMAL;
+    float4 tangentOS : TANGENT;
     float2 uv : TEXCOORD0;
 };
 
 struct VSOutput
 {
-    float4 position : SV_POSITION;
-    float3 normal : NORMAL;
-    float4 tangent : TANGENT;
+    float4 positionCS : SV_POSITION;
+    float3 normalWS : NORMAL;
+    float3 tangentWS : TANGENT;
     float2 uv : TEXCOORD0;
+    float3 positionWS : TEXCOORD1;
+    float3 normal : TEXCOORD2;
+    float4 tangent : TEXCOORD3;
 };
 
 struct HSOutput
@@ -52,8 +55,8 @@ struct HSOutput
 
 struct GSOutput
 {
-    float4 position : SV_POSITION;
+    float4 positionCS : SV_POSITION;
     float2 uv : TEXCOORD0;
-    float3 worldPos : TEXCOORD1;
+    float3 positionWS : TEXCOORD1;
 };
 #endif

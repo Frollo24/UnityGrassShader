@@ -1,15 +1,23 @@
 #ifndef GEOMETRY_GRASS_FORWARD_INCLUDED
 #define GEOMETRY_GRASS_FORWARD_INCLUDED
 
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+
 VSOutput VSMain(in VSInput input)
 {
     VSOutput output;
-	//output.position = TransformObjectToHClip(input.position.xyz);
-    output.position = float4(TransformObjectToWorld(input.position.xyz), 1.0f);
-	//output.position = input.position;
-    output.normal = input.normal;
-    output.tangent = input.tangent;
+	
+    VertexPositionInputs posInputs = GetVertexPositionInputs(input.positionOS.xyz);
+    VertexNormalInputs normInputs = GetVertexNormalInputs(input.normalOS.xyz, input.tangentOS);
+	
+    output.positionCS = posInputs.positionCS;
+    output.positionWS = posInputs.positionWS;
+    output.normalWS = normInputs.normalWS;
+    output.tangentWS = normInputs.tangentWS;
+	
     output.uv = input.uv;
+    output.normal = input.normalOS;
+    output.tangent = input.tangentOS;
     return output;
 }
 
@@ -20,7 +28,7 @@ float4 PSMain(in GSOutput input) : SV_Target
 #ifdef MAIN_LIGHT_CALCULATE_SHADOWS
 	// Shadow receiving
 	VertexPositionInputs vertexInput = (VertexPositionInputs)0;
-	vertexInput.positionWS = input.worldPos;
+	vertexInput.positionWS = input.positionWS;
 
 	float4 shadowCoord = GetShadowCoord(vertexInput);
 	half shadowAttenuation = saturate(MainLightRealtimeShadow(shadowCoord) + 0.25f);

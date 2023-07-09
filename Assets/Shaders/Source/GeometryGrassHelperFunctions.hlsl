@@ -33,9 +33,9 @@ float3x3 AngleAxis3x3(float angle, float3 axis)
 GSOutput VertexTransformWorldToClip(float3 pos, float2 uv)
 {
     GSOutput o;
-    o.position = TransformObjectToHClip(pos);
+    o.positionCS = TransformObjectToHClip(pos);
     o.uv = uv;
-    o.worldPos = pos;
+    o.positionWS = pos;
     return o;
 }
 

@@ -55,9 +55,9 @@ Shader "CustomGrass/GeometryGrass"
 			#define UNITY_PI 3.14159265359f
 			#define UNITY_TWO_PI 6.28318530718f
 
-			#include "GeometryGrassInput.hlsl"
-			#include "GeometryGrassHelperFunctions.hlsl"
-			#include "GeometryGrassExtraStages.hlsl"
+			#include "Source/GeometryGrassInput.hlsl"
+			#include "Source/GeometryGrassHelperFunctions.hlsl"
+			#include "Source/GeometryGrassExtraStages.hlsl"
 		ENDHLSL
 
 		Pass
@@ -78,7 +78,7 @@ Shader "CustomGrass/GeometryGrass"
 			#pragma geometry GSMain
 			#pragma fragment PSMain
 
-			#include "GeometryGrassForwardPass.hlsl"
+			#include "Source/GeometryGrassForwardPass.hlsl"
 			ENDHLSL
 		}
 
@@ -91,6 +91,9 @@ Shader "CustomGrass/GeometryGrass"
 			ZTest LEqual
 
 			HLSLPROGRAM
+			#pragma require geometry
+			#pragma require tessellation tessHW
+
 			#pragma vertex VSMain
 			#pragma hull HSMain
 			#pragma domain DSMain
@@ -103,7 +106,7 @@ Shader "CustomGrass/GeometryGrass"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/SurfaceInput.hlsl"
 
 			// TODO: Substitute with main shadow caster pass when possible
-			#include "GeometryGrassShadowCasterPass.hlsl"
+			#include "Source/GeometryGrassShadowCasterPass.hlsl"
 			ENDHLSL
 		}
 	}
