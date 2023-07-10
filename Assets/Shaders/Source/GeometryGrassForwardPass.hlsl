@@ -16,8 +16,8 @@ VSOutput VSMain(in VSInput input)
     output.tangentWS = normInputs.tangentWS;
 	
     output.uv = input.uv;
-    output.normal = input.normalOS;
-    output.tangent = input.tangentOS;
+    output.normalOS = input.normalOS;
+    output.tangentOS = input.tangentOS;
     return output;
 }
 

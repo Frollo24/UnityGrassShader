@@ -25,8 +25,8 @@ VSOutput VSMain(VSInput v)
     o.tangentWS = normInputs.tangentWS;
     
     o.uv = TRANSFORM_TEX(v.uv, _GrassMap);
-    o.normal = v.normalOS;
-    o.tangent = v.tangentOS;
+    o.normalOS = v.normalOS;
+    o.tangentOS = v.tangentOS;
 
     return o;
 }

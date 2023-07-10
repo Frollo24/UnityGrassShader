@@ -33,11 +33,14 @@ VSOutput DSMain(HSOutput input, OutputPatch<VSOutput, 3> patch, float3 barycentr
 					patch[1].fieldname * barycentricCoords.y + \
 					patch[2].fieldname * barycentricCoords.z;
 
-	INTERPOLATE(positionCS)
-	INTERPOLATE(positionWS)
-	INTERPOLATE(normal)
-	INTERPOLATE(tangent)
 	INTERPOLATE(uv)
+	INTERPOLATE(positionWS)
+	INTERPOLATE(normalOS)
+	INTERPOLATE(tangentOS)
+    
+	INTERPOLATE(positionCS)
+	INTERPOLATE(normalWS)
+	INTERPOLATE(tangentWS)
 
     return output;
 }
@@ -47,8 +50,8 @@ VSOutput DSMain(HSOutput input, OutputPatch<VSOutput, 3> patch, float3 barycentr
 void GSMain(triangle VSOutput input[3], inout TriangleStream<GSOutput> triStream)
 {
     float3 pos = input[0].positionWS;
-    float3 norm = input[0].normal;
-    float4 tang = input[0].tangent;
+    float3 norm = input[0].normalOS;
+    float4 tang = input[0].tangentOS;
     float3 binorm = cross(norm, tang.xyz) * tang.w;
 
     float3x3 tangentToLocal = float3x3

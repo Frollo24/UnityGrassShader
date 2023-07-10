@@ -38,13 +38,14 @@ struct VSInput
 
 struct VSOutput
 {
+    float2 uv : TEXCOORD0;
+    float3 positionWS : TEXCOORD1;
+    float3 normalOS : TEXCOORD2;
+    float4 tangentOS : TEXCOORD3;
+    
     float4 positionCS : SV_POSITION;
     float3 normalWS : NORMAL;
     float3 tangentWS : TANGENT;
-    float2 uv : TEXCOORD0;
-    float3 positionWS : TEXCOORD1;
-    float3 normal : TEXCOORD2;
-    float4 tangent : TEXCOORD3;
 };
 
 struct HSOutput
@@ -55,8 +56,9 @@ struct HSOutput
 
 struct GSOutput
 {
-    float4 positionCS : SV_POSITION;
     float2 uv : TEXCOORD0;
     float3 positionWS : TEXCOORD1;
+    
+    float4 positionCS : SV_POSITION;
 };
 #endif
