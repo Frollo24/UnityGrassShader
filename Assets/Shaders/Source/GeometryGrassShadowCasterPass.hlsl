@@ -5,9 +5,9 @@ float3 _LightDirection;
 float3 _LightPosition;
 
 // Custom vertex shader to apply shadow bias.
-VSOutput VSMain(VSInput v)
+VertexOutput VSMain(Attributes v)
 {
-    VSOutput o;
+    VertexOutput o;
     
     VertexPositionInputs posInputs = GetVertexPositionInputs(v.positionOS.xyz);
     VertexNormalInputs normInputs = GetVertexNormalInputs(v.normalOS.xyz, v.tangentOS);
@@ -31,7 +31,7 @@ VSOutput VSMain(VSInput v)
     return o;
 }
 
-float4 PSMain(GSOutput i) : SV_Target
+float4 PSMain(GeometryOutput i) : SV_Target
 {
     Alpha(SampleAlbedoAlpha(i.uv, TEXTURE2D_ARGS(_BaseMap, sampler_BaseMap)).a, _BaseColor, _Cutoff);
     return 0;

@@ -30,9 +30,9 @@ float3x3 AngleAxis3x3(float angle, float3 axis)
 	);
 }
 
-GSOutput VertexTransformWorldToClip(float3 pos, float2 uv)
+GeometryOutput VertexTransformWorldToClip(float3 pos, float2 uv)
 {
-    GSOutput o;
+    GeometryOutput o;
     o.positionCS = TransformObjectToHClip(pos);
     o.uv = uv;
     o.positionWS = pos;
@@ -40,7 +40,7 @@ GSOutput VertexTransformWorldToClip(float3 pos, float2 uv)
 }
 
 // WHF -> WidthHeightForward
-GSOutput GenerateGrassVertex(float3 vertexPos, float3 WHF, float2 uv, float3x3 transformMatrix)
+GeometryOutput GenerateGrassVertex(float3 vertexPos, float3 WHF, float2 uv, float3x3 transformMatrix)
 {
     float3 tangentPoint = WHF.xzy;
     float3 localPosition = vertexPos + mul(transformMatrix, tangentPoint);

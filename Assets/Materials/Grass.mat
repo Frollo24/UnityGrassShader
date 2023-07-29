@@ -92,6 +92,10 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _BendRotationRandom: 0
+    - _BladeBendCurve: 2
+    - _BladeBendForward: 0.38
+    - _BladeBendRandomRotation: 0.2
+    - _BladeBendRotationRandom: 0.2
     - _BladeCurve: 2
     - _BladeForward: 0.38
     - _BladeHeight: 0.5
@@ -121,6 +125,7 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
+    - _TessellationFactor: 12
     - _TessellationUniform: 12
     - _WindFrequency: 0.01
     - _WindStrength: 1

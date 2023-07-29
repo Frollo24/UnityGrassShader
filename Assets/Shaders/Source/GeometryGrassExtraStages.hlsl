@@ -3,13 +3,35 @@
 
 #include "GeometryGrassHelperFunctions.hlsl"
 
-HSOutput PatchMain(InputPatch<VSOutput, 3> patch)
+HullOutput PatchMain(InputPatch<VertexOutput, 3> patch)
 {
-    HSOutput output;
-    output.edge[0] = _TessellationUniform;
-    output.edge[1] = _TessellationUniform;
-    output.edge[2] = _TessellationUniform;
-    output.inside = _TessellationUniform;
+    HullOutput output;
+    
+    // Get vertex position
+    float3 vertPos0 = patch[0].positionWS.xyz;
+    float3 vertPos1 = patch[1].positionWS.xyz;
+    float3 vertPos2 = patch[2].positionWS.xyz;
+
+    // Get medium point between each vertex
+    float3 edgePos0 = 0.5f * (vertPos1 + vertPos2);
+    float3 edgePos1 = 0.5f * (vertPos0 + vertPos2);
+    float3 edgePos2 = 0.5f * (vertPos0 + vertPos1);
+    
+    // Calculate tesselation factor based on distance
+    float dist0 = distance(edgePos0, _WorldSpaceCameraPos);
+    float dist1 = distance(edgePos1, _WorldSpaceCameraPos);
+    float dist2 = distance(edgePos2, _WorldSpaceCameraPos);
+    
+    float fadeDist = _TessMaxDistance - _TessMinDistance;
+
+    float edgeFactor0 = saturate(1.0f - (dist0 - _TessMinDistance) / fadeDist);
+    float edgeFactor1 = saturate(1.0f - (dist1 - _TessMinDistance) / fadeDist);
+    float edgeFactor2 = saturate(1.0f - (dist2 - _TessMinDistance) / fadeDist);
+    
+    output.edge[0] = max(pow(edgeFactor0, 2) * _TessellationFactor, 1);
+    output.edge[1] = max(pow(edgeFactor1, 2) * _TessellationFactor, 1);
+    output.edge[2] = max(pow(edgeFactor2, 2) * _TessellationFactor, 1);
+    output.inside = (output.edge[0] + output.edge[1] + output.edge[2]) / 3.0f;
     return output;
 }
 
@@ -18,15 +40,15 @@ HSOutput PatchMain(InputPatch<VSOutput, 3> patch)
 [outputtopology("triangle_cw")]
 [partitioning("integer")]
 [patchconstantfunc("PatchMain")]
-VSOutput HSMain(InputPatch<VSOutput, 3> patch, uint id : SV_OutputControlPointID)
+VertexOutput HSMain(InputPatch<VertexOutput, 3> patch, uint id : SV_OutputControlPointID)
 {
     return patch[id];
 }
 
 [domain("tri")]
-VSOutput DSMain(HSOutput input, OutputPatch<VSOutput, 3> patch, float3 barycentricCoords : SV_DomainLocation)
+VertexOutput DSMain(HullOutput input, OutputPatch<VertexOutput, 3> patch, float3 barycentricCoords : SV_DomainLocation)
 {
-    VSOutput output;
+    VertexOutput output;
 
     #define INTERPOLATE(fieldname) output.fieldname = \
 					patch[0].fieldname * barycentricCoords.x + \
@@ -47,7 +69,7 @@ VSOutput DSMain(HSOutput input, OutputPatch<VSOutput, 3> patch, float3 barycentr
 
 #define BLADE_SEGMENTS 3
 [maxvertexcount(BLADE_SEGMENTS * 2 + 1)]
-void GSMain(triangle VSOutput input[3], inout TriangleStream<GSOutput> triStream)
+void GSMain(triangle VertexOutput input[3], inout TriangleStream<GeometryOutput> triStream)
 {
     float3 pos = input[0].positionWS;
     float3 norm = input[0].normalOS;
@@ -67,7 +89,7 @@ void GSMain(triangle VSOutput input[3], inout TriangleStream<GSOutput> triStream
 
     float3x3 windRotationMatrix = AngleAxis3x3(UNITY_PI * windSample, wind);
     float3x3 facingRotationMatrix = AngleAxis3x3(rand(pos) * UNITY_TWO_PI, float3(0, 0, 1));
-    float3x3 bendRotationMatrix = AngleAxis3x3(rand(pos.zzx) * _BendRotationRandom * UNITY_PI * 0.5, float3(-1, 0, 0));
+    float3x3 bendRotationMatrix = AngleAxis3x3(rand(pos.zzx) * _BladeBendRandomRotation * UNITY_PI * 0.5, float3(-1, 0, 0));
     float3x3 transformMatrix = mul(tangentToLocal, windRotationMatrix);
     transformMatrix = mul(transformMatrix, facingRotationMatrix);
     transformMatrix = mul(transformMatrix, bendRotationMatrix);
@@ -75,14 +97,14 @@ void GSMain(triangle VSOutput input[3], inout TriangleStream<GSOutput> triStream
 
     float width = (rand(pos.xzy) * 2 - 1) * _BladeWidthRandom + _BladeWidth;
     float height = (rand(pos.zyx) * 2 - 1) * _BladeHeightRandom + _BladeHeight;
-    float forward = rand(pos.yyz) * _BladeForward;
+    float forward = rand(pos.yyz) * _BladeBendForward;
 
     for (int i = 0; i < BLADE_SEGMENTS; i++)
     {
         float t = float(i) / float(BLADE_SEGMENTS);
         float segmentWidth = width * (1 - t);
         float segmentHeight = height * t;
-        float segmentForward = pow(t, _BladeCurve) * forward;
+        float segmentForward = pow(t, _BladeBendCurve) * forward;
 
         float3x3 segmentTransformMatrix = i == 0 ? transformFacingMatrix : transformMatrix;
         triStream.Append(GenerateGrassVertex(pos, float3(segmentWidth, segmentHeight, segmentForward), float2(0, t), segmentTransformMatrix));

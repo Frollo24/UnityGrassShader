@@ -5,28 +5,30 @@ Shader "CustomGrass/GeometryGrass"
 		[Header(Albedo)] // Albedo color properties
 		_TipColor("Tip Color", Color) = (0.5792569, 0.846, 0.3297231, 1)
 		_BaseColor("Base Color", Color) = (0.06129726, 0.378, 0.07151345, 1)
-		_BladeTexture("Blade Texture", 2D) = "white" {}
+		[MainTexture] _BladeTexture("Blade Texture", 2D) = "white" {}
 
-		[Header(Blade Bend)] // Blade bend rotation
-		_BendRotationRandom("Bend Rotation Random", Range(0, 1)) = 0.2
+		[Header(Blade Bend Properties)] // Blade bend properties
+		_BladeBendRandomRotation("Blade Bend Random Rotation", Range(0, 1)) = 0.2
+		_BladeBendForward("Blade Forward Amount", Range(0, 1)) = 0.38
+		_BladeBendCurve("Blade Curvature Amount", Range(1, 4)) = 2
 
 		[Header(Blade Size)] // Blade size properties
 		_BladeWidth("Blade Width", Float) = 0.05
 		_BladeWidthRandom("Blade Width Random", Float) = 0.02
 		_BladeHeight("Blade Width", Float) = 0.5
 		_BladeHeightRandom("Blade Width Random", Float) = 0.3
-		_BladeForward("Blade Forward Amount", Float) = 0.38
-		_BladeCurve("Blade Curvature Amount", Range(1, 4)) = 2
 
-		[Header(Tesselation Factor)]
-		_TessellationUniform("Tessellation Uniform", Range(1, 64)) = 1
+		[Header(Tesselation Factor)] // Tessellation properties
+		_TessellationFactor("Tessellation Factor", Range(1, 64)) = 16
+		_TessMinDistance("Minimum Tessellation Distance", Float) = 20
+		_TessMaxDistance("Maximum Tessellation Distance", Float) = 50
 
-		[Header(Wind Parameters)] // Wind properties.
+		[Header(Wind Parameters)] // Wind properties
 		_WindMap("Wind Offset Map", 2D) = "bump" {}
 		_WindFrequency("Wind Frequency", Vector) = (0.05, 0.05, 0, 0)
 		_WindStrength("Wind Strength", Float) = 1.0
 
-		[Header(Grass visibility)] // Grass visibility properties.
+		[Header(Grass Visibility)] // Grass visibility properties
 		_GrassMap("Grass Visibility Map", 2D) = "white" {}
 	}
 	SubShader

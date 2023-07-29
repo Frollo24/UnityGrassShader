@@ -3,9 +3,9 @@
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
-VSOutput VSMain(in VSInput input)
+VertexOutput VSMain(in Attributes input)
 {
-    VSOutput output;
+    VertexOutput output;
 	
     VertexPositionInputs posInputs = GetVertexPositionInputs(input.positionOS.xyz);
     VertexNormalInputs normInputs = GetVertexNormalInputs(input.normalOS.xyz, input.tangentOS);
@@ -21,7 +21,7 @@ VSOutput VSMain(in VSInput input)
     return output;
 }
 
-float4 PSMain(in GSOutput input) : SV_Target
+float4 PSMain(in GeometryOutput input) : SV_Target
 {
     float4 bladeTint = tex2D(_BladeTexture, input.uv);
 
