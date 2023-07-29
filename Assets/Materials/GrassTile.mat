@@ -92,6 +92,9 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _BendRotationRandom: 0
+    - _BladeBendCurve: 2
+    - _BladeBendForward: 0.38
+    - _BladeBendRandomRotation: 0.2
     - _BladeCurve: 2
     - _BladeForward: 0.38
     - _BladeHeight: 0.5
@@ -121,6 +124,9 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
+    - _TessMaxDistance: 50
+    - _TessMinDistance: 20
+    - _TessellationFactor: 2
     - _TessellationUniform: 2
     - _WindFrequency: 0.01
     - _WindStrength: 1
@@ -133,6 +139,7 @@ Material:
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TipColor: {r: 0.5792569, g: 0.846, b: 0.32972306, a: 1}
     - _WindFrequency: {r: 0.05, g: 0.05, b: 0, a: 0}
+    - _WindVelocity: {r: 1, g: 0, b: 1, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &4420895507059976831
 MonoBehaviour:

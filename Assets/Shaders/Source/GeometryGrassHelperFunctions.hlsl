@@ -34,6 +34,7 @@ GeometryOutput VertexTransformWorldToClip(float3 pos, float2 uv)
 {
     GeometryOutput o;
     o.positionCS = TransformObjectToHClip(pos);
+    
     o.uv = uv;
     o.positionWS = pos;
     return o;

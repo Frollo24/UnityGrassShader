@@ -27,8 +27,8 @@ CBUFFER_START(UnityPerMaterial)
     // Tessellation properties
     sampler2D _WindMap;
     float4 _WindMap_ST;
-    float2 _WindFrequency;
-    float _WindStrength;
+    float3 _WindVelocity;
+    float _WindFrequency;
 
     // Grass visibility properties
     sampler2D _GrassMap;

@@ -25,8 +25,8 @@ Shader "CustomGrass/GeometryGrass"
 
 		[Header(Wind Parameters)] // Wind properties
 		_WindMap("Wind Offset Map", 2D) = "bump" {}
-		_WindFrequency("Wind Frequency", Vector) = (0.05, 0.05, 0, 0)
-		_WindStrength("Wind Strength", Float) = 1.0
+		_WindVelocity("Wind Velocity", Vector) = (0.05, 0.05, 0, 0)
+		_WindFrequency("Wind Frequency", Float) = 1.0
 
 		[Header(Grass Visibility)] // Grass visibility properties
 		_GrassMap("Grass Visibility Map", 2D) = "white" {}
@@ -53,6 +53,8 @@ Shader "CustomGrass/GeometryGrass"
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
 #endif
 			#pragma multi_compile _ _SHADOWS_SOFT
+
+			#pragma multi_compile_local WIND_ON _
 
 			#define UNITY_PI 3.14159265359f
 			#define UNITY_TWO_PI 6.28318530718f

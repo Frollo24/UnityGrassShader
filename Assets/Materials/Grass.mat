@@ -125,10 +125,12 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _TessellationFactor: 12
+    - _TessMaxDistance: 50
+    - _TessMinDistance: 20
+    - _TessellationFactor: 16
     - _TessellationUniform: 12
-    - _WindFrequency: 0.01
-    - _WindStrength: 1
+    - _WindFrequency: 0.05
+    - _WindStrength: -10.89
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
@@ -138,6 +140,7 @@ Material:
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TipColor: {r: 0.5792569, g: 0.846, b: 0.32972306, a: 1}
     - _WindFrequency: {r: 0.05, g: 0.05, b: 0, a: 0}
+    - _WindVelocity: {r: 1, g: 0, b: 0.5, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &4420895507059976831
 MonoBehaviour:
