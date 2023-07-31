@@ -85,18 +85,14 @@ void GSMain(triangle VertexOutput input[3], inout TriangleStream<GeometryOutput>
 
     float3x3 facingRotationMatrix = AngleAxis3x3(rand(pos) * UNITY_TWO_PI, float3(0, 0, 1));
     float3x3 baseTransformMatrix = mul(tangentToLocal, facingRotationMatrix);
-    float3x3 tipTransformMatrix = baseTransformMatrix;
-    float3x3 bendRotationMatrix = AngleAxis3x3(rand(pos.zzx) * _BladeBendRandomRotation * UNITY_PI * 0.5, float3(-1, 0, 0));
+    float3x3 bendRotationMatrix = AngleAxis3x3(rand(pos.zzx) * _BladeBendRandomRotation * UNITY_PI * 0.5f, float3(-1, 0, 0));
 
 // TODO: enable WIND_ON value editing based on texture value  
 // #if WIND_ON
-    float2 windUV = pos.xz * _WindMap_ST.xy + _WindMap_ST.zw + normalize(_WindVelocity.xz) * _WindFrequency * _Time.y;
-    float2 windSample = (tex2Dlod(_WindMap, float4(windUV, 0, 0)).xy * 2.0 - 1.0) * length(_WindVelocity);
-    float3 wind = normalize(float3(windSample.xy, 0));
-
-    float3x3 windRotationMatrix = AngleAxis3x3(UNITY_PI * windSample, wind);
+    float3x3 windRotationMatrix = GenerateWindRotationMatrix(pos);
+    float3x3 tipTransformMatrix = mul(tangentToLocal, windRotationMatrix);
+    tipTransformMatrix = mul(tipTransformMatrix, facingRotationMatrix);
     tipTransformMatrix = mul(tipTransformMatrix, bendRotationMatrix);
-    tipTransformMatrix = mul(tipTransformMatrix, windRotationMatrix);
 
     float width = (rand(pos.xzy) * 2 - 1) * _BladeWidthRandom + _BladeWidth;
     float height = (rand(pos.zyx) * 2 - 1) * _BladeHeightRandom + _BladeHeight;

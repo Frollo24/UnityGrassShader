@@ -48,4 +48,24 @@ GeometryOutput GenerateGrassVertex(float3 vertexPos, float3 WHF, float2 uv, floa
     return VertexTransformWorldToClip(localPosition, uv);
 }
 
+// 
+// Wind functions
+//
+float3 GenerateWindAxis(float3 grassPositionWS, out float2 windSample)
+{
+    float2 windUV = grassPositionWS.xz * _WindMap_ST.xy + _WindMap_ST.zw + normalize(-_WindVelocity.xz) * _WindFrequency * _Time.y;
+    windSample = (tex2Dlod(_WindMap, float4(windUV, 0, 0)).xy * 2.0 - 1.0) * length(_WindVelocity);
+    
+    float3 windAxis = normalize(float3(windSample.xy, 0));
+    return windAxis;
+}
+
+float3x3 GenerateWindRotationMatrix(float3 grassPositionWS)
+{
+    float2 windSample;
+    float3 wind = GenerateWindAxis(grassPositionWS, windSample);
+    float3x3 windRotationMatrix = AngleAxis3x3(UNITY_PI * windSample, wind);
+    return windRotationMatrix;
+}
+
 #endif
