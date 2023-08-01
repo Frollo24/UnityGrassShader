@@ -1,6 +1,7 @@
 #ifndef GEOMETRY_GRASS_FORWARD_INCLUDED
 #define GEOMETRY_GRASS_FORWARD_INCLUDED
 
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
 VertexOutput VSMain(in Attributes input)
@@ -27,10 +28,7 @@ float4 PSMain(in GeometryOutput input) : SV_Target
 
 #ifdef MAIN_LIGHT_CALCULATE_SHADOWS
 	// Shadow receiving
-	VertexPositionInputs vertexInput = (VertexPositionInputs)0;
-	vertexInput.positionWS = input.positionWS;
-
-	float4 shadowCoord = GetShadowCoord(vertexInput);
+    float4 shadowCoord = TransformWorldToShadowCoord(input.positionWS);
 	half shadowAttenuation = saturate(MainLightRealtimeShadow(shadowCoord) + 0.25f);
 	float4 shadowColor = lerp(0.0f, 1.0f, shadowAttenuation);
 	bladeTint *= shadowColor;

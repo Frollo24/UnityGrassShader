@@ -67,6 +67,7 @@ struct GeometryOutput
 {
     float2 uv : TEXCOORD0;
     float3 positionWS : TEXCOORD1;
+    float3 normalWS : TEXCOORD2;
     
     float4 positionCS : SV_POSITION;
 };

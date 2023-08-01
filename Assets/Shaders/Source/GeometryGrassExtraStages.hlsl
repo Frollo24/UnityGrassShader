@@ -106,10 +106,10 @@ void GSMain(triangle VertexOutput input[3], inout TriangleStream<GeometryOutput>
         float segmentForward = pow(t, _BladeBendCurve) * forward;
 
         float3x3 segmentTransformMatrix = i == 0 ? baseTransformMatrix : tipTransformMatrix;
-        triStream.Append(GenerateGrassVertex(pos, float3(segmentWidth, segmentHeight, segmentForward), float2(0, t), segmentTransformMatrix));
-        triStream.Append(GenerateGrassVertex(pos, float3(-segmentWidth, segmentHeight, segmentForward), float2(1, t), segmentTransformMatrix));
+        triStream.Append(GenerateGrassVertex(pos, norm, float3(segmentWidth, segmentHeight, segmentForward), float2(0, t), segmentTransformMatrix));
+        triStream.Append(GenerateGrassVertex(pos, norm, float3(-segmentWidth, segmentHeight, segmentForward), float2(1, t), segmentTransformMatrix));
     }
-    triStream.Append(GenerateGrassVertex(pos, float3(0, height, forward), float2(0.5, 1), tipTransformMatrix));
+    triStream.Append(GenerateGrassVertex(pos, norm, float3(0, height, forward), float2(0.5, 1), tipTransformMatrix));
 }
 
 #endif
