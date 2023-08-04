@@ -48,11 +48,14 @@ Shader "CustomGrass/GeometryGrass"
 
 #if UNITY_VERSION >= 202120
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE
+			#pragma multi_compile _ _ADDITIONAL_LIGHTS
 #else
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
+			#pragma multi_compile _ _ADDITIONAL_LIGHTS
 #endif
 			#pragma multi_compile _ _SHADOWS_SOFT
+			#pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
 
 			#pragma multi_compile_local WIND_ON _
 
@@ -97,6 +100,8 @@ Shader "CustomGrass/GeometryGrass"
 			HLSLPROGRAM
 			#pragma require geometry
 			#pragma require tessellation tessHW
+
+			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
 
 			#pragma vertex VSMain
 			#pragma hull HSMain

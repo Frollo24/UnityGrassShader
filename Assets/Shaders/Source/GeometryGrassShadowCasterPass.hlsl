@@ -18,13 +18,13 @@ VertexOutput VSMain(Attributes v)
 #else
     float3 lightDirectionWS = _LightDirection;
 #endif
-    o.positionCS = posInputs.positionCS;
     o.positionWS = ApplyShadowBias(posInputs.positionWS, normInputs.normalWS, lightDirectionWS);
+    o.positionCS = TransformWorldToHClip(o.positionWS);
     
     o.normalWS = normInputs.normalWS;
     o.tangentWS = normInputs.tangentWS;
     
-    o.uv = TRANSFORM_TEX(v.uv, _GrassMap);
+    o.uv = TRANSFORM_TEX(v.uv, _BladeTexture);
     o.normalOS = v.normalOS;
     o.tangentOS = v.tangentOS;
 
