@@ -88,11 +88,15 @@ void GSMain(triangle VertexOutput input[3], inout TriangleStream<GeometryOutput>
     float3x3 bendRotationMatrix = AngleAxis3x3(rand(pos.zzx) * _BladeBendRandomRotation * UNITY_PI * 0.5f, float3(-1, 0, 0));
 
 // TODO: enable WIND_ON value editing based on texture value  
-// #if WIND_ON
+#if _WINDENABLE_ON
     float3x3 windRotationMatrix = GenerateWindRotationMatrix(pos);
     float3x3 tipTransformMatrix = mul(tangentToLocal, windRotationMatrix);
     tipTransformMatrix = mul(tipTransformMatrix, facingRotationMatrix);
     tipTransformMatrix = mul(tipTransformMatrix, bendRotationMatrix);
+#else
+    float3x3 tipTransformMatrix = mul(tangentToLocal, facingRotationMatrix);
+    tipTransformMatrix = mul(tipTransformMatrix, bendRotationMatrix);
+#endif
 
     float width = (rand(pos.xzy) * 2 - 1) * _BladeWidthRandom + _BladeWidth;
     float height = (rand(pos.zyx) * 2 - 1) * _BladeHeightRandom + _BladeHeight;

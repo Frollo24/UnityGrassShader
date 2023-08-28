@@ -24,6 +24,7 @@ Shader "CustomGrass/GeometryGrass"
 		_TessMaxDistance("Maximum Tessellation Distance", Float) = 50
 
 		[Header(Wind Parameters)] // Wind properties
+		[Toggle] _WindEnable("Enable Wind", Float) = 1
 		_WindMap("Wind Offset Map", 2D) = "bump" {}
 		_WindVelocity("Wind Velocity", Vector) = (0.05, 0.05, 0, 0)
 		_WindFrequency("Wind Frequency", Float) = 1.0
@@ -57,7 +58,7 @@ Shader "CustomGrass/GeometryGrass"
 			#pragma multi_compile _ _SHADOWS_SOFT
 			#pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
 
-			#pragma multi_compile_local WIND_ON _
+			#pragma shader_feature _WINDENABLE_ON
 
 			#define UNITY_PI 3.14159265359f
 			#define UNITY_TWO_PI 6.28318530718f
