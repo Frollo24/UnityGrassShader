@@ -6,7 +6,13 @@ namespace UnityGrassShader
 {
     public class AppManager : MonoBehaviour
     {
+        [SerializeField] private bool _isWallpaperBuild; // TODO: expand with other building options
         [SerializeField] private GameObject _editor;
+
+        private void Start()
+        {
+            _editor.SetActive(!_isWallpaperBuild);
+        }
 
         private void Update()
         {
@@ -18,12 +24,11 @@ namespace UnityGrassShader
 
             if (Input.GetKeyDown(KeyCode.E))
                 ToggleEditor();
-
         }
 
         private void ToggleEditor()
         {
-            _editor.active = !_editor.active;
+            _editor.SetActive(!_editor.activeSelf);
         }
     }
 }
