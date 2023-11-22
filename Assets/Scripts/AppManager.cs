@@ -4,14 +4,22 @@ using UnityEngine;
 
 namespace UnityGrassShader
 {
+    public enum BuildOption
+    {
+        None = 0,
+        WallpaperEngine = 1,
+        StandaloneApp = 2,
+        WebGLApp = 3,
+    }
+
     public class AppManager : MonoBehaviour
     {
-        [SerializeField] private bool _isWallpaperBuild; // TODO: expand with other building options
+        [SerializeField] private BuildOption _buildOption = BuildOption.StandaloneApp;
         [SerializeField] private GameObject _editor;
 
         private void Start()
         {
-            _editor.SetActive(!_isWallpaperBuild);
+            _editor.SetActive(_buildOption != BuildOption.WallpaperEngine);
         }
 
         private void Update()

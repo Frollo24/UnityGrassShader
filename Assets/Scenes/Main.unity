@@ -10437,7 +10437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0a933ac824f1384c84db1f2c3127561, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isWallpaperBuild: 0
+  _buildOption: 2
   _editor: {fileID: 5749662288943743537}
 --- !u!4 &1879270488
 Transform:
